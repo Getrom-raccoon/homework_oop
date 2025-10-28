@@ -2,12 +2,11 @@ from src.product import Product
 from typing import List
 
 
-
-
 class Category:
     """
     Класс для категорий товаров.
     """
+
     category_count = 0
     product_count = 0
 

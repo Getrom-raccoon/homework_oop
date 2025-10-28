@@ -1,10 +1,14 @@
 from typing import Union
 
+
 class Product:
     """
     Класс для описания товара в магазине.
     """
-    def __init__(self, name: str, description: str, price: Union[int, float], quantity: int):
+
+    def __init__(
+        self, name: str, description: str, price: Union[int, float], quantity: int
+    ):
         self.name = name
         self.description = description
         self._price = price
