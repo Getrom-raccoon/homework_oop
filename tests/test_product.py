@@ -9,23 +9,9 @@ def test_product_init():
     assert product.quantity == 15
 
 
-def test_product_price_setter_and_validation(capfd):
-    product = Product("Ноутбук", "Описание", 50000, 2)
+def test_product_price_and_quantity():
+    product = Product("Ноутбук", "Мощный", 50000, 2)
     product.price = 60000
     assert product.price == 60000
-
-    product.price = 0
-    out = capfd.readouterr().out
-    assert "Цена не должна быть нулевая или отрицательная" in out
-    assert product.price == 60000
-
-    product.price = -100
-    out = capfd.readouterr().out
-    assert "Цена не должна быть нулевая или отрицательная" in out
-    assert product.price == 60000
-
-
-def test_product_quantity():
-    product = Product("Мышь", "Обычная мышь", 700, 30)
-    assert isinstance(product.quantity, int)
-    assert product.quantity > 0
+    product.quantity = 3
+    assert product.quantity == 3

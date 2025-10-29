@@ -1,6 +1,7 @@
 import pytest
-from src.product import Product
+
 from src.category import Category
+from src.product import Product
 
 
 @pytest.fixture
@@ -15,8 +16,8 @@ def test_category_init_and_products(sample_products):
     category = Category("Бытовая техника", "Описание", sample_products)
     assert category.name == "Бытовая техника"
     assert category.description == "Описание"
-    assert len(category._Category__products) == 2
-    assert all(isinstance(p, Product) for p in category._Category__products)
+    assert len(category.products) == 2
+    assert all(isinstance(p, Product) for p in category.products)
 
 
 def test_category_counters(sample_products):
@@ -41,5 +42,5 @@ def test_category_counters(sample_products):
 
 def test_category_empty_products():
     category = Category("Книги", "Раздел книг", [])
-    assert isinstance(category._Category__products, list)
-    assert len(category._Category__products) == 0
+    assert isinstance(category.products, list)
+    assert len(category.products) == 0
