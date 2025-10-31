@@ -1,6 +1,5 @@
 class Product:
 
-
     def __init__(self, name: str, description: str, price: float, quantity: int):
         """
         Инициализация Product.
