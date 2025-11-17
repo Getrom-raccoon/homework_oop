@@ -11,31 +11,37 @@ class Category:
     def __init__(self, name: str, description: str, products: List[Product] = None):
         """
         Инициализация Category.
-
-        Args:
-            name: Название категории.
-            description: Описание категории.
-            products: Список товаров (по умолчанию пустой).
         """
         self.name = name
         self.description = description
-        self.products = products if products else []
+        self.__products = products if products else []
         Category.category_count += 1
-        Category.product_total += len(self.products)
+        Category.product_total += len(self.__products)
 
-    def add_product(self, product: Product):
+    @property
+    def products(self) -> List[Product]:
+        """
+        Возвращает список товаров в категории.
+        """
+        return self.__products
+
+    def add_product(self, product: Product) -> None:
         """
         Добавляет товар в категорию.
-
-        Args:
-            product: Экземпляр товара.
         """
-        self.products.append(product)
+        self.__products.append(product)
         Category.product_total += 1
 
     @property
-    def product_count(self):
+    def product_count(self) -> int:
         """
         Возвращает количество товаров в категории.
         """
-        return len(self.products)
+        return len(self.__products)
+
+    def __str__(self) -> str:
+        """
+        Возвращает строковое представление категории.
+        """
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
