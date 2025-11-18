@@ -1,52 +1,55 @@
 class Product:
-
+    """
+    Базовый класс продукта.
+    """
     def __init__(self, name: str, description: str, price: float, quantity: int):
-        """
-        Инициализация Product.
-        """
         self.name = name
         self.description = description
-        self._price = price
+        self.price = price if price > 0 else 0
         self.quantity = quantity
 
     @property
     def price(self):
-        """
-        Возвращает цену товара.
-        """
         return self._price
 
     @price.setter
     def price(self, value):
-        """
-        Устанавливает цену товара.
-        """
-        if value < 0:
-            self._price = 0
-        else:
-            self._price = value
+        self._price = value if value > 0 else 0
 
-    def __str__(self) -> str:
-        """
-        Возвращает строковое представление товара.
-        """
-        return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
+    def __str__(self):
+        return f"{self.name}, {int(self.price)} . {self.quantity} ."
 
-    def __add__(self, other: 'Product') -> float:
-        """
-        Складывает два товара, возвращая сумму их стоимости на складе.
-
-        """
+    def __add__(self, other):
+        if type(self) != type(other):
+            raise TypeError("Складывать можно только объекты одного типа!")
         return self.price * self.quantity + other.price * other.quantity
 
     @classmethod
     def new_product(cls, data: dict):
-        """
-        Создает Product из словаря данных.
-        """
         return cls(
-            name=data.get("name"),
-            description=data.get("description"),
-            price=data.get("price"),
-            quantity=data.get("quantity"),
+            data.get("name"),
+            data.get("description"),
+            data.get("price"),
+            data.get("quantity"),
         )
+
+class Smartphone(Product):
+    """
+    Класс смартфонов, наследуется от Product.
+    """
+    def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+class LawnGrass(Product):
+    """
+    Класс газонной травы, наследуется от Product.
+    """
+    def __init__(self, name, description, price, quantity, country, germination_period, color):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
