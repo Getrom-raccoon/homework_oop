@@ -1,10 +1,12 @@
 from typing import List
 from src.product import Product
 
+
 class Category:
     """
     Класс категории товаров.
     """
+
     category_count = 0
     product_total = 0
 
@@ -25,7 +27,9 @@ class Category:
 
     def add_product(self, product: Product):
         if not isinstance(product, Product):
-            raise TypeError("Можно добавлять только экземпляры Product и его наследников!")
+            raise TypeError(
+                "Можно добавлять только экземпляры Product и его наследников!"
+            )
         self.products.append(product)
         Category.product_total += 1
 
