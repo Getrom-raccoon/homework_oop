@@ -17,7 +17,7 @@ class Product:
         self._price = value if value > 0 else 0
 
     def __str__(self):
-        return f"{self.name}, {int(self.price)} . {self.quantity} ."
+        return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
         if type(self) != type(other):
