@@ -9,6 +9,7 @@ def test_product_constructor_zero_negative_price():
     p3 = Product("A", "B", -5, 5)
     assert p3.price == 0
 
+
 def test_product_price_setter_branch():
     p = Product("X", "Y", 50, 1)
     p.price = 77
