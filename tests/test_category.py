@@ -4,6 +4,30 @@ from src.category import Category
 from src.product import Product
 
 
+def test_category_add_product_increases_count():
+    """Тест добавления товара увеличивает счетчик."""
+    Category.category_count = 0
+    Category.product_total = 0
+    c = Category("Тест", "Тест категория")
+    p = Product("Товар", "Описание", 100, 1)
+    assert c.product_count == 0
+    c.add_product(p)
+    assert c.product_count == 1
+    assert Category.product_total == 1
+
+
+def test_category_str_empty_category():
+    """Тест строкового представления пустой категории."""
+    c = Category("Пусто", "Нет товаров")
+    assert str(c) == "Пусто, количество продуктов: 0 шт."
+
+
+def test_category_products_property_type():
+    """Тест типа property products."""
+    c = Category("Имя", "Описание")
+    assert isinstance(c.products, list)
+
+
 @pytest.fixture
 def sample_products():
     """Фикстура с примерами товаров."""
