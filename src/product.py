@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class BaseProduct(ABC):
     """
     Абстрактный базовый класс для всех товаров.
@@ -36,7 +37,9 @@ class BaseProduct(ABC):
         Разрешено только для экземпляров одного класса.
         """
         if not isinstance(other, type(self)):
-            raise TypeError("Операция сложения допустима только для одного типа товаров!")
+            raise TypeError(
+                "Операция сложения допустима только для одного типа товаров!"
+            )
         return self.price * self.quantity + other.price * other.quantity
 
     def __str__(self):
@@ -54,8 +57,9 @@ class BaseProduct(ABC):
             data.get("name", ""),
             data.get("description", ""),
             data.get("price", 0),
-            data.get("quantity", 0)
+            data.get("quantity", 0),
         )
+
 
 class Product(BaseProduct):
     """
@@ -68,12 +72,23 @@ class Product(BaseProduct):
         """
         super().__init__(name, description, price, quantity)
 
+
 class Smartphone(Product):
     """
     Класс продукта — смартфон.
     """
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, model: str, memory: str, color: str, camera: str):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        model: str,
+        memory: str,
+        color: str,
+        camera: str,
+    ):
         """
         Инициализация смартфона спецификой товара.
         """
@@ -83,12 +98,22 @@ class Smartphone(Product):
         self.color = color
         self.camera = camera
 
+
 class LawnGrass(Product):
     """
     Класс продукта — газонная трава.
     """
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, germination_period: str, color: str):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
         """
         Инициализация газонной травы спецификой товара.
         """
