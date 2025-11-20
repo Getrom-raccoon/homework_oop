@@ -1,63 +1,97 @@
-class Product:
+from abc import ABC, abstractmethod
+
+class BaseProduct(ABC):
     """
-    Базовый класс продукта.
+    Абстрактный базовый класс для всех товаров.
+    Предписывает атрибуты: название, описание, цена, количество.
     """
 
+    @abstractmethod
     def __init__(self, name: str, description: str, price: float, quantity: int):
+        """
+        Инициализация основных свойств товара.
+        """
         self.name = name
         self.description = description
-        self.price = price if price > 0 else 0
+        self.price = price if price >= 0 else 0
         self.quantity = quantity
 
     @property
     def price(self):
+        """
+        Возвращает цену товара.
+        """
         return self._price
 
     @price.setter
     def price(self, value):
-        self._price = value if value > 0 else 0
-
-    def __str__(self):
-        return f"{self.name}, {int(self.price)} руб. Остаток: {self.quantity} шт."
+        """
+        Устанавливает цену товара (отрицательная цена становится 0).
+        """
+        self._price = value if value >= 0 else 0
 
     def __add__(self, other):
+        """
+        Складывает сумму товаров
+        Разрешено только для экземпляров одного класса.
+        """
         if not isinstance(other, type(self)):
-            raise TypeError("Складывать можно только объекты одного типа!")
+            raise TypeError("Операция сложения допустима только для одного типа товаров!")
         return self.price * self.quantity + other.price * other.quantity
+
+    def __str__(self):
+        """
+        Форматированная строка для печати информации о товаре.
+        """
+        return f"{self.name}, {int(self.price)} руб. {self.quantity} шт."
 
     @classmethod
     def new_product(cls, data: dict):
+        """
+        Создает новый экземпляр класса из словаря с ключами
+        """
         return cls(
-            data.get("name"),
-            data.get("description"),
-            data.get("price"),
-            data.get("quantity"),
+            data.get("name", ""),
+            data.get("description", ""),
+            data.get("price", 0),
+            data.get("quantity", 0)
         )
 
+class Product(BaseProduct):
+    """
+    Класс универсального продукта.
+    """
+
+    def __init__(self, name: str, description: str, price: float, quantity: int):
+        """
+        Инициализация продукта.
+        """
+        super().__init__(name, description, price, quantity)
 
 class Smartphone(Product):
     """
-    Класс смартфонов, наследуется от Product.
+    Класс продукта — смартфон.
     """
 
-    def __init__(
-        self, name, description, price, quantity, efficiency, model, memory, color
-    ):
+    def __init__(self, name: str, description: str, price: float, quantity: int, model: str, memory: str, color: str, camera: str):
+        """
+        Инициализация смартфона спецификой товара.
+        """
         super().__init__(name, description, price, quantity)
-        self.efficiency = efficiency
         self.model = model
         self.memory = memory
         self.color = color
-
+        self.camera = camera
 
 class LawnGrass(Product):
     """
-    Класс газонной травы, наследуется от Product.
+    Класс продукта — газонная трава.
     """
 
-    def __init__(
-        self, name, description, price, quantity, country, germination_period, color
-    ):
+    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, germination_period: str, color: str):
+        """
+        Инициализация газонной травы спецификой товара.
+        """
         super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
