@@ -1,15 +1,13 @@
 import pytest
-
 from src.category import Category
 from src.product import Product
 
 
 def test_category_add_product_increases_count():
-    """Тест добавления товара увеличивает счетчик."""
     Category.category_count = 0
     Category.product_total = 0
-    c = Category("Тест", "Тест категория")
-    p = Product("Товар", "Описание", 100, 1)
+    c = Category("Test", "Desc")
+    p = Product("X", "Y", 100, 1)
     assert c.product_count == 0
     c.add_product(p)
     assert c.product_count == 1
@@ -17,73 +15,67 @@ def test_category_add_product_increases_count():
 
 
 def test_category_str_empty_category():
-    """Тест строкового представления пустой категории."""
-    c = Category("Пусто", "Нет товаров")
-    assert str(c) == "Пусто, количество продуктов: 0 шт."
+    c = Category("Test", "Desc")
+    assert str(c) == "Test, 0 шт."
 
 
 def test_category_products_property_type():
-    """Тест типа property products."""
-    c = Category("Имя", "Описание")
+    c = Category("Test", "Desc")
     assert isinstance(c.products, list)
 
 
 @pytest.fixture
 def sample_products():
-    """Фикстура с примерами товаров."""
-    return [
-        Product("Товар A", "описание A", 30000, 10),
-        Product("Товар B", "описание B", 45000, 5),
-    ]
+    return [Product("A", "A", 30000, 10), Product("B", "B", 45000, 5)]
 
 
 def test_category_init_and_products(sample_products):
-    """Тест инициализации Category с товарами."""
-    category = Category("Категория", "описание", sample_products)
-    assert category.name == "Категория"
-    assert category.description == "описание"
+    category = Category("Cat", "Desc", sample_products)
+    assert category.name == "Cat"
+    assert category.description == "Desc"
     assert len(category.products) == 2
     assert all(isinstance(p, Product) for p in category.products)
 
 
 def test_category_counters(sample_products):
-    """Тест счетчиков категорий и товаров."""
     Category.category_count = 0
     Category.product_total = 0
-    category1 = Category("1", "desc", [sample_products[0]])
+    category1 = Category("Cat1", "Desc", [sample_products[0]])
     assert isinstance(category1, Category)
     assert Category.category_count == 1
     assert Category.product_total == 1
-    category2 = Category("2", "desc", [sample_products[1]])
-    assert isinstance(category2, Category)
+    Category("Cat2", "Desc", [sample_products[1]])
     assert Category.category_count == 2
     assert Category.product_total == 2
-    category3 = Category("3", "desc")
+    category3 = Category("Cat3", "Desc")
     assert isinstance(category3, Category)
     assert Category.category_count == 3
     assert Category.product_total == 2
 
 
 def test_category_empty_products():
-    """Тест пустой категории."""
-    category = Category("Пустая категория", "нет товаров")
+    category = Category("Name", "Desc")
     assert isinstance(category.products, list)
     assert len(category.products) == 0
 
 
 def test_category_str_representation(sample_products):
-    """Тест строкового представления Category."""
-    category = Category("Смартфоны", "описание", sample_products)
+    category = Category("Test", "Desc", sample_products)
     result = str(category)
-    assert result == "Смартфоны, количество продуктов: 15 шт."
+    assert result == "Test, 15 шт."
 
 
 def test_category_add_product(sample_products):
-    """Тест добавления товара в категорию."""
     Category.category_count = 0
     Category.product_total = 0
-    category = Category("Категория", "описание", [sample_products[0]])
+    category = Category("Test", "Desc", [sample_products[0]])
     assert len(category.products) == 1
     category.add_product(sample_products[1])
     assert len(category.products) == 2
     assert Category.product_total == 2
+
+
+def test_category_add_product_type_error():
+    c = Category("Test", "Desc")
+    with pytest.raises(TypeError):
+        c.add_product("test")

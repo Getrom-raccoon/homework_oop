@@ -1,4 +1,29 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class CreationLoggerMixin:
+    """
+    Миксин для логирования создания объекта.
+    Выводит в консоль информацию о создании любого наследника.
+    """
+    def __init__(self, *args, **kwargs):
+        print(
+            f"Создан объект класса {self.__class__.__name__} "
+            f"с параметрами: {args, kwargs}"
+        )
+        super().__init__(*args, **kwargs)
+
+
+class BaseProduct(ABC):
+    """
+    Абстрактный базовый класс для продукта.
+    """
+    @abstractmethod
+    def __str__(self):
+        pass
+
+
+class Product(CreationLoggerMixin, BaseProduct):
     """
     Базовый класс продукта.
     """
@@ -37,12 +62,10 @@ class Product:
 
 class Smartphone(Product):
     """
-    Класс смартфонов, наследуется от Product.
+    Класс смартфона, наследуется от Product.
     """
 
-    def __init__(
-        self, name, description, price, quantity, efficiency, model, memory, color
-    ):
+    def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
@@ -55,9 +78,7 @@ class LawnGrass(Product):
     Класс газонной травы, наследуется от Product.
     """
 
-    def __init__(
-        self, name, description, price, quantity, country, germination_period, color
-    ):
+    def __init__(self, name, description, price, quantity, country, germination_period, color):
         super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
