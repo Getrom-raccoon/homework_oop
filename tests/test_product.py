@@ -42,13 +42,13 @@ def test_product_new_product_partial_data():
 
 def test_product_str_empty_fields():
     product = Product("", "", 0, 0)
-    assert str(product) == ", 0 руб. 0 шт."
+    assert str(product) == ", 0 руб. Остаток: 0 шт."
 
 
 def test_product_str_representation():
     product = Product("Samsung Galaxy S23 Ultra", "256GB, Серый", 180000.0, 5)
     result = str(product)
-    assert result == "Samsung Galaxy S23 Ultra, 180000 руб. 5 шт."
+    assert result == "Samsung Galaxy S23 Ultra, 180000 руб. Остаток: 5 шт."
 
 
 def test_product_add():
