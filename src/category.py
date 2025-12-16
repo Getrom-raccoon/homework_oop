@@ -5,9 +5,7 @@ from src.product import Product
 
 class Category:
     """
-    Класс для представления категории товаров.
-
-    Содержит имя, описание, список товаров.
+    Класс категории товаров.
     """
 
     category_count = 0
@@ -15,7 +13,7 @@ class Category:
 
     def __init__(self, name: str, description: str, products: List[Product] = None):
         """
-        Инициализация категории с продуктами (или пустым списком).
+        Инициализирует категорию и обновляет счётчики.
         """
         self.name = name
         self.description = description
@@ -26,36 +24,38 @@ class Category:
     @property
     def products(self) -> List[Product]:
         """
-        Геттер для списка продуктов.
+        Возвращает список продуктов категории.
         """
         return self._products
 
     @products.setter
-    def products(self, value):
+    def products(self, value: List[Product]) -> None:
         """
-        Сеттер для списка продуктов.
+        Устанавливает список продуктов категории.
         """
         self._products = value
 
-    def add_product(self, product: Product):
+    def add_product(self, product: Product) -> None:
         """
-        Добавляет продукт в категорию, только если это экземпляр Product.
+        Добавляет продукт в категорию и обновляет счётчик продуктов.
         """
         if not isinstance(product, Product):
-            raise TypeError("Можно добавить только экземпляр класса Product!")
+            raise TypeError(
+                "Можно добавлять только экземпляры Product и его наследников!"
+            )
         self.products.append(product)
         Category.product_total += 1
 
     @property
     def product_count(self) -> int:
         """
-        Количество товаров в категории.
+        Возвращает количество товаров в категории.
         """
         return len(self.products)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
-        Форматированная строка: 'Название категории, всего товаров: N'.
+        Возвращает строковое представление категории.
         """
         total_quantity = sum(product.quantity for product in self.products)
         return f"{self.name}, {total_quantity} шт."
