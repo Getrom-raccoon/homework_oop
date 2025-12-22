@@ -38,6 +38,18 @@ class Category:
     def product_count(self) -> int:
         return len(self.products)
 
+    def middle_price(self) -> float:
+        """
+        Расчёт среднего ценника всех товаров категории.
+
+        В случае отсутствия товаров возвращает 0 без выброса исключения.
+        """
+        try:
+            total_price = sum(product.price for product in self.products)
+            return total_price / len(self.products)
+        except ZeroDivisionError:
+            return 0
+
     def __str__(self):
         total_quantity = sum(product.quantity for product in self.products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
