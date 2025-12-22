@@ -1,3 +1,5 @@
+import pytest
+
 from src.product import Product
 
 
@@ -32,9 +34,10 @@ def test_product_price_setter_zero():
 
 
 def test_product_add_with_zero_quantity():
-    product1 = Product("A", "desc", 500, 0)
-    product2 = Product("B", "desc", 300, 0)
-    assert product1 + product2 == 0
+    """Создание товара с нулевым количеством вызывает ValueError."""
+    with pytest.raises(ValueError) as exc_info:
+        Product("A", "desc", 500, 0)
+    assert "Товар с нулевым количеством не может быть добавлен" in str(exc_info.value)
 
 
 def test_product_price_setter_negative():
@@ -55,9 +58,9 @@ def test_product_new_product_partial_data():
 
 
 def test_product_str_empty_fields():
-    """Тест str для товара с пустыми значениями."""
-    product = Product("", "", 0, 0)
-    assert str(product) == ", 0 руб. Остаток: 0 шт."
+    """Товар с нулевым количеством не создаётся."""
+    with pytest.raises(ValueError):
+        Product("", "", 0, 0)
 
 
 def test_product_init():
@@ -82,7 +85,9 @@ def test_product_price_and_quantity():
 
 def test_product_str_representation():
     """Тест строкового представления Product."""
-    product = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product = Product(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
+    )
     assert str(product) == "Samsung Galaxy S23 Ultra, 180000 руб. Остаток: 5 шт."
 
 
@@ -116,3 +121,9 @@ def test_product_new_product_from_dict():
     assert product.description == "Описание товара"
     assert product.price == 50000
     assert product.quantity == 10
+
+
+def test_product_str_empty_fields_non_zero_quantity():
+    """Строка для товара с пустыми полями и ненулевым количеством."""
+    product = Product("", "", 0, 1)
+    assert str(product) == ", 0 руб. Остаток: 1 шт."
