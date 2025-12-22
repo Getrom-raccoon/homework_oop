@@ -12,6 +12,9 @@ class Category:
     product_total = 0
 
     def __init__(self, name: str, description: str, products: List[Product] = None):
+        """
+        Инициализирует категорию и обновляет счётчики.
+        """
         self.name = name
         self.description = description
         self.products = products if products is not None else []
@@ -20,13 +23,22 @@ class Category:
 
     @property
     def products(self) -> List[Product]:
+        """
+        Возвращает список продуктов категории.
+        """
         return self._products
 
     @products.setter
-    def products(self, value):
+    def products(self, value: List[Product]) -> None:
+        """
+        Устанавливает список продуктов категории.
+        """
         self._products = value
 
-    def add_product(self, product: Product):
+    def add_product(self, product: Product) -> None:
+        """
+        Добавляет продукт в категорию и обновляет счётчик продуктов.
+        """
         if not isinstance(product, Product):
             raise TypeError(
                 "Можно добавлять только экземпляры Product и его наследников!"
@@ -36,8 +48,14 @@ class Category:
 
     @property
     def product_count(self) -> int:
+        """
+        Возвращает количество товаров в категории.
+        """
         return len(self.products)
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Возвращает строковое представление категории.
+        """
         total_quantity = sum(product.quantity for product in self.products)
-        return f"{self.name}, количество продуктов: {total_quantity} шт."
+        return f"{self.name}, {total_quantity} шт."
